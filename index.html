@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorry 🌙</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+
+    /* floating emoji background */
+    .emoji {
+      position: absolute;
+      opacity: 0.4;
+      animation: float linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(110vh);
+      }
+      to {
+        transform: translateY(-120vh);
+      }
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      display: none;
+      animation: pop 0.6s ease-out forwards;
+      z-index: 5;
+    }
+
+    @keyframes pop {
+      from {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 0;
+      }
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: absolute;
+      z-index: 10;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px white;
+    }
+
+    .accept {
+      background: white;
+      color: black;
+      position: static;
+    }
+
+    .angry {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .final-message {
+      font-size: 2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="main">
+    <h1>sorry to the moon and back 🌙</h1>
+    <button class="accept" onclick="acceptSorry()">accept the sorry</button>
+  </div>
+
+  <script>
+    const body = document.body;
+    const emojis = ["😢","🥺","😭","🤡","💔","🌙"];
+
+    // create floating emojis
+    for (let i = 0; i < 28; i++) {
+      const e = document.createElement("div");
+      e.className = "emoji";
+      e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      e.style.left = Math.random() * 100 + "vw";
+      e.style.fontSize = 1.8 + Math.random() * 2.2 + "rem";
+      e.style.animationDuration = 10 + Math.random() * 12 + "s";
+      body.appendChild(e);
+    }
+
+    setTimeout(() => {
+      document.getElementById("main").style.display = "block";
+      spawnAngryButton();
+    }, 1200);
+
+    function randomPosition(btn) {
+      const x = Math.random() * (window.innerWidth - 160);
+      const y = Math.random() * (window.innerHeight - 70);
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
+    }
+
+    function spawnAngryButton() {
+      const btn = document.createElement("button");
+      btn.innerText = "still angry?";
+      btn.className = "angry";
+      randomPosition(btn);
+
+      // run away from cursor 😈
+      btn.addEventListener("mouseenter", () => {
+        randomPosition(btn);
+      });
+
+      // clicking spawns more
+      btn.onclick = () => {
+        spawnAngryButton();
+      };
+
+      body.appendChild(btn);
+    }
+
+    function acceptSorry() {
+      body.innerHTML = `
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          height:100vh;
+          background:black;
+          color:white;
+          flex-direction:column;
+        ">
+          <div class="final-message">
+            🥹 sorry accepted  
+            <br><br>
+            heart fixed 💔➡️❤️  
+            <br>
+            moon reached 🌙
+          </div>
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
